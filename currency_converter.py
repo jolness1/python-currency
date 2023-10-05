@@ -58,7 +58,9 @@ def list_currencies():
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Convert currency using FreeCurrencyAPI")
+    parser = argparse.ArgumentParser(description="Convert currency using FreeCurrencyAPI",
+                                     usage="currency_converter.py [amount] [start_currency] [end_currency]"
+                                     )
     parser.add_argument("amount", type=float, nargs="?", help="Amount to convert")
     parser.add_argument("start_currency", type=str, nargs="?", help="Home currency code (e.g., USD)")
     parser.add_argument("end_currency", type=str, nargs="?", help="Converted currency code (e.g., EUR)")
