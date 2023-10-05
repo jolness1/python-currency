@@ -15,7 +15,6 @@ To list all available currencies: `currency_converter.py --list-currencies`
 1) Add some sort of support for matching based on name (ie new zealand is converted to NZD automatically
 2) Create a UI
 3) More error handling possibly
-4)
 
 ### Available Currency Abbreviations and Full Names
 | Abbreviation | Full Name |
