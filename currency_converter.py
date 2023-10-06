@@ -89,6 +89,13 @@ def main():
         list_currencies()
         return
 
+    if not args.amount:
+        args.amount = float(input("Enter the amount to convert: "))
+    if not args.start_currency:
+        args.start_currency = input("Enter the home currency code (e.g., USD): ")
+    if not args.end_currency:
+        args.end_currency = input("Enter the converted currency code (e.g., EUR): ")
+
     converted_amount = convert_currency(args.amount, args.start_currency, args.end_currency)
 
     if converted_amount is not None:
