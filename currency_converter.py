@@ -95,8 +95,10 @@ COUNTRY_TO_CURRENCY = {
 
 def convert_currency(amount, start_currency, end_currency, country_to_currency):
     try:
-        start_currency = country_to_currency.get(start_currency)
-        end_currency = country_to_currency.get(end_currency)
+        # If start_currency is a country name, map it to the currency code
+        start_currency = country_to_currency.get(start_currency, start_currency)
+        # If end_currency is a country name, map it to the currency code
+        end_currency = country_to_currency.get(end_currency, end_currency)
 
         if start_currency not in CURRENCY_CODES:
             raise ValueError(f"Invalid start currency: {start_currency}")
