@@ -93,8 +93,11 @@ COUNTRY_TO_CURRENCY = {
 }
 
 
-def convert_currency(amount, start_currency, end_currency):
+def convert_currency(amount, start_currency, end_currency, country_to_currency):
     try:
+        start_currency = country_to_currency.get(start_currency)
+        end_currency = country_to_currency.get(end_currency)
+
         if start_currency not in CURRENCY_CODES:
             raise ValueError(f"Invalid start currency: {start_currency}")
         if end_currency not in CURRENCY_CODES:
@@ -129,11 +132,11 @@ def list_currencies():
 
 def main():
     parser = argparse.ArgumentParser(description="Convert currency using FreeCurrencyAPI",
-                                     usage="currency_converter.py [amount] [start_currency] [end_currency]"
+                                     usage="currency_converter.py [amount] [start_country] [end_country]"
                                      )
     parser.add_argument("amount", type=float, nargs="?", help="Amount to convert")
-    parser.add_argument("start_currency", type=str, nargs="?", help="Home currency code (e.g., USD)")
-    parser.add_argument("end_currency", type=str, nargs="?", help="Converted currency code (e.g., EUR)")
+    parser.add_argument("start_country", type=str, nargs="?", help="Home country name (e.g., Germany)")
+    parser.add_argument("end_country", type=str, nargs="?", help="Converted country name (e.g., France)")
     parser.add_argument('--list-currencies', '-lc', action="store_true",
                         help="List available currency abbreviations and exit")
 
@@ -145,15 +148,15 @@ def main():
 
     if not args.amount:
         args.amount = float(input("Enter the amount to convert: "))
-    if not args.start_currency:
-        args.start_currency = input("Enter the home currency code (e.g., USD): ")
-    if not args.end_currency:
-        args.end_currency = input("Enter the converted currency code (e.g., EUR): ")
+    if not args.start_country:
+        args.start_country = input("Enter the home country name (e.g., Germany): ")
+    if not args.end_country:
+        args.end_country = input("Enter the converted country name (e.g., France): ")
 
-    converted_amount = convert_currency(args.amount, args.start_currency, args.end_currency)
+    converted_amount = convert_currency(args.amount, args.start_country, args.end_country, COUNTRY_TO_CURRENCY)
 
     if converted_amount is not None:
-        print(f"{args.amount} {args.start_currency} is equal to {converted_amount} {args.end_currency}")
+        print(f"{args.amount} {args.start_country} is equal to {converted_amount} {args.end_country}")
     else:
         print("Conversion failed.")
 
