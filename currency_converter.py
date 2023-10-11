@@ -39,7 +39,7 @@ CURRENCY_CODES = {
 }
 
 COUNTRY_TO_CURRENCY = {
-     "austria": "EUR",
+    "austria": "EUR",
     "belgium": "EUR",
     "croatia": "EUR",
     "cyprus": "EUR",
@@ -96,9 +96,9 @@ COUNTRY_TO_CURRENCY = {
 def convert_currency(amount, start_currency, end_currency, country_to_currency):
     try:
         # If start_currency is a country name, map it to the currency code
-        start_currency = country_to_currency.get(start_currency, start_currency)
+        start_currency = country_to_currency.get(start_currency, start_currency).upper()
         # If end_currency is a country name, map it to the currency code
-        end_currency = country_to_currency.get(end_currency, end_currency)
+        end_currency = country_to_currency.get(end_currency, end_currency).upper()
 
         if start_currency not in CURRENCY_CODES:
             raise ValueError(f"Invalid start currency: {start_currency}")
@@ -151,16 +151,26 @@ def main():
     if not args.amount:
         args.amount = float(input("Enter the amount to convert: "))
     if not args.start_country:
-        args.start_country = input("Enter the home country name (e.g., Germany): ")
+        args.start_country = input("Enter the home country name or currency code (e.g., Germany or EUR): ")
     if not args.end_country:
-        args.end_country = input("Enter the converted country name (e.g., France): ")
+        args.end_country = input("Enter the converted country name or currency code (e.g., France or EUR): ")
+
+    start_currency = COUNTRY_TO_CURRENCY.get(args.start_country.lower(), args.start_country)
+    end_currency = COUNTRY_TO_CURRENCY.get(args.end_country.lower(), args.end_country)
 
     converted_amount = convert_currency(args.amount, args.start_country, args.end_country, COUNTRY_TO_CURRENCY)
 
     if converted_amount is not None:
-        print(f"{args.amount} {args.start_country} is equal to {converted_amount} {args.end_country}")
+        print(f"{args.amount} {start_currency} is equal to {converted_amount} {end_currency}")
     else:
         print("Conversion failed.")
+
+    # converted_amount = convert_currency(args.amount, args.start_country, args.end_country, COUNTRY_TO_CURRENCY)
+    #
+    # if converted_amount is not None:
+    #     print(f"{args.amount} {args.start_country} is equal to {converted_amount} {args.end_country}")
+    # else:
+    #     print("Conversion failed.")
 
 
 if __name__ == "__main__":
