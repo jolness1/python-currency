@@ -165,13 +165,6 @@ def main():
     else:
         print("Conversion failed.")
 
-    # converted_amount = convert_currency(args.amount, args.start_country, args.end_country, COUNTRY_TO_CURRENCY)
-    #
-    # if converted_amount is not None:
-    #     print(f"{args.amount} {args.start_country} is equal to {converted_amount} {args.end_country}")
-    # else:
-    #     print("Conversion failed.")
-
 
 if __name__ == "__main__":
     main()
