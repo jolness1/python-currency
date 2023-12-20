@@ -115,7 +115,7 @@ def convert_currency(amount, start_currency, end_currency, country_to_currency):
             raise Exception(f"Failed to convert currency: {response.status_code} {response.reason}")
 
         conversion_rate = data["data"][end_currency]
-        converted_amount = amount * conversion_rate
+        converted_amount = round(amount * conversion_rate, 2)
         return converted_amount
 
     except ValueError as ve:
