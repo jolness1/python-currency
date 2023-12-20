@@ -3,10 +3,16 @@
 A simple script for converting currencies using python that ses the FreeCurrencyAPI for live currency data.
 
 ## Usage
-`python3 currency_convert.py` and follow prompts
+### Starting the Backend
+1) Navigate to the `backend` directory
+2) `python3 app.py`
 
+### Starting the Frontend
+*TODO*
+
+### Use standalone
+`python2 currency_converter.py` and follow prompts
 *or*
-
 `python3 currency_converter.py [amount] [start_currency] [end_currency]`
 
 For example: `currency_converter.py 30 USD GBP` will convert $30 USD to GBP
@@ -20,7 +26,7 @@ For help use `currency_converter.py -h`
 To list all available currencies: `currency_converter.py --list-currencies`
 
 ### To Do:
-1) Create a UI
+1) Create a Frontend
 2) Add ability to list all country names
 
 ### Available Currency Abbreviations and Full Names
