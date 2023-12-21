@@ -7,10 +7,8 @@ app = Flask(__name__)
 @app.route("/convert", methods=["POST"])
 def conversion():
     data = request.json
-    converted_amount = convert_currency(
-        data["amount"], data["start_currency"], data["end_currency"], COUNTRY_TO_CURRENCY)
-    response_message = f"{CURRENCY_SYMBOLS.get(data['start_currency'])}{data['amount']} {data['start_currency']} is equal to {CURRENCY_SYMBOLS.get(data['end_currency'])}{converted_amount} {data['end_currency']}"
-    return jsonify({"message": response_message})
+    conversion_result = convert_currency(data["amount"], data["start_currency"], data["end_currency"], COUNTRY_TO_CURRENCY)
+    return jsonify({"message": conversion_result})
 
 
 if __name__ == "__main__":

@@ -133,6 +133,10 @@ def get_currency_code(name, country_to_currency):
     return country_to_currency.get(name.lower(), name).upper()
 
 
+def generate_conversion_message(amount, start_currency, end_currency, converted_amount):
+    return f"{CURRENCY_SYMBOLS.get(start_currency)}{amount} {start_currency} is equal to {CURRENCY_SYMBOLS.get(end_currency)}{converted_amount} {end_currency}"
+
+
 def convert_currency(amount, start_currency, end_currency, country_to_currency):
     try:
         # Convert country names to currency codes
@@ -156,13 +160,17 @@ def convert_currency(amount, start_currency, end_currency, country_to_currency):
 
         conversion_rate = data["data"][end_currency]
         converted_amount = round(amount * conversion_rate, 2)
-        return converted_amount
+        message = generate_conversion_message(
+            amount, start_currency, end_currency, converted_amount)
+        return message
 
     except ValueError as ve:
-        print(f"ValueError: {ve}")
+        message = f"ValueError: {ve}"
+        print(message)
         return None
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        message = f"An unexpected error occurred: {e}"
+        print(message)
         raise
 
 
@@ -203,11 +211,11 @@ def main():
     start_currency = get_currency_code(args.start_country, COUNTRY_TO_CURRENCY)
     end_currency = get_currency_code(args.end_country, COUNTRY_TO_CURRENCY)
 
-    converted_amount = convert_currency(
+    conversion_result = convert_currency(
         args.amount, args.start_country, args.end_country, COUNTRY_TO_CURRENCY)
 
-    if converted_amount is not None:
-        print(f"{CURRENCY_SYMBOLS.get(start_currency)}{args.amount} {start_currency} is equal to {CURRENCY_SYMBOLS.get(end_currency)}{converted_amount} {end_currency}")
+    if conversion_result is not None:
+        print(conversion_result)
     else:
         print("Conversion failed.")
 
