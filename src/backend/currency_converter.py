@@ -129,28 +129,30 @@ COUNTRY_TO_CURRENCY = {
 }
 
 
+def get_currency_code(name, country_to_currency):
+    return country_to_currency.get(name.lower(), name).upper()
 
 
 def convert_currency(amount, start_currency, end_currency, country_to_currency):
     try:
-        # If start_currency is a country name, map it to the currency code
-        start_currency = country_to_currency.get(start_currency.lower(), start_currency)
-        # If end_currency is a country name, map it to the currency code
-        end_currency = country_to_currency.get(end_currency.lower(), end_currency)
+        # Convert country names to currency codes
+        start_currency = get_currency_code(start_currency, country_to_currency)
+        end_currency = get_currency_code(end_currency, country_to_currency)
 
-        if start_currency.upper() not in CURRENCY_CODES:
+        if start_currency not in CURRENCY_CODES:
             raise ValueError(f"Invalid start currency: {start_currency}")
-        if end_currency.upper() not in CURRENCY_CODES:
+        if end_currency not in CURRENCY_CODES:
             raise ValueError(f"Invalid end currency: {end_currency}")
 
         url = "https://api.freecurrencyapi.com/v1/latest?apikey={apikey}&base_currency={start_currency}&currencies={end_currency}"
         response = requests.get(
-            url.format(apikey="fca_live_Rmp5gWHFF5juckEH9pHQrokJv83Cm2YYBhXLyUyv", start_currency=start_currency.upper(),
-                       end_currency=end_currency.upper()))
+            url.format(apikey="fca_live_Rmp5gWHFF5juckEH9pHQrokJv83Cm2YYBhXLyUyv", start_currency=start_currency,
+                       end_currency=end_currency))
         data = response.json()
 
         if response.status_code != 200:
-            raise Exception(f"Failed to convert currency: {response.status_code} {response.reason}")
+            raise Exception(
+                f"Failed to convert currency: {response.status_code} {response.reason}")
 
         conversion_rate = data["data"][end_currency]
         converted_amount = round(amount * conversion_rate, 2)
@@ -174,9 +176,12 @@ def main():
     parser = argparse.ArgumentParser(description="Convert currency using FreeCurrencyAPI",
                                      usage="currency_converter.py [amount] [start_country] [end_country]"
                                      )
-    parser.add_argument("amount", type=float, nargs="?", help="Amount to convert")
-    parser.add_argument("start_country", type=str, nargs="?", help="Home country name (e.g., Germany)")
-    parser.add_argument("end_country", type=str, nargs="?", help="Converted country name (e.g., France)")
+    parser.add_argument("amount", type=float, nargs="?",
+                        help="Amount to convert")
+    parser.add_argument("start_country", type=str, nargs="?",
+                        help="Home country name (e.g., Germany)")
+    parser.add_argument("end_country", type=str, nargs="?",
+                        help="Converted country name (e.g., France)")
     parser.add_argument('--list-currencies', '-lc', action="store_true",
                         help="List available currency abbreviations and exit")
 
@@ -189,14 +194,17 @@ def main():
     if not args.amount:
         args.amount = float(input("Enter the amount to convert: "))
     if not args.start_country:
-        args.start_country = input("Enter the home country name or currency code (e.g., Germany or EUR): ")
+        args.start_country = input(
+            "Enter the home country name or currency code (e.g., Germany or EUR): ")
     if not args.end_country:
-        args.end_country = input("Enter the converted country name or currency code (e.g., France or EUR): ")
+        args.end_country = input(
+            "Enter the converted country name or currency code (e.g., France or EUR): ")
 
-    start_currency = COUNTRY_TO_CURRENCY.get(args.start_country.lower(), args.start_country)
-    end_currency = COUNTRY_TO_CURRENCY.get(args.end_country.lower(), args.end_country)
+    start_currency = get_currency_code(args.start_country, COUNTRY_TO_CURRENCY)
+    end_currency = get_currency_code(args.end_country, COUNTRY_TO_CURRENCY)
 
-    converted_amount = convert_currency(args.amount, args.start_country, args.end_country, COUNTRY_TO_CURRENCY)
+    converted_amount = convert_currency(
+        args.amount, args.start_country, args.end_country, COUNTRY_TO_CURRENCY)
 
     if converted_amount is not None:
         print(f"{CURRENCY_SYMBOLS.get(start_currency)}{args.amount} {start_currency} is equal to {CURRENCY_SYMBOLS.get(end_currency)}{converted_amount} {end_currency}")
