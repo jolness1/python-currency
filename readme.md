@@ -5,12 +5,12 @@ A simple script for converting currencies using python that ses the FreeCurrency
 ## Usage
 ### Starting the Backend
 1) Navigate to the `backend` directory
-2) `python3 app.py`
+2) `python3 app.py` - app will run on port 8000 by default
 
-### Starting the Frontend
+#### Starting the Frontend
 *TODO*
 
-### Use standalone
+#### Use standalone
 `python2 currency_converter.py` and follow prompts
 *or*
 `python3 currency_converter.py [amount] [start_currency] [end_currency]`

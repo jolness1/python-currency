@@ -134,9 +134,9 @@ COUNTRY_TO_CURRENCY = {
 def convert_currency(amount, start_currency, end_currency, country_to_currency):
     try:
         # If start_currency is a country name, map it to the currency code
-        start_currency = country_to_currency.get(start_currency, start_currency).upper()
+        start_currency = country_to_currency.get(start_currency.lower(), start_currency)
         # If end_currency is a country name, map it to the currency code
-        end_currency = country_to_currency.get(end_currency, end_currency).upper()
+        end_currency = country_to_currency.get(end_currency.lower(), end_currency)
 
         if start_currency not in CURRENCY_CODES:
             raise ValueError(f"Invalid start currency: {start_currency}")
