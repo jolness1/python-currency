@@ -138,15 +138,15 @@ def convert_currency(amount, start_currency, end_currency, country_to_currency):
         # If end_currency is a country name, map it to the currency code
         end_currency = country_to_currency.get(end_currency.lower(), end_currency)
 
-        if start_currency not in CURRENCY_CODES:
+        if start_currency.upper() not in CURRENCY_CODES:
             raise ValueError(f"Invalid start currency: {start_currency}")
-        if end_currency not in CURRENCY_CODES:
+        if end_currency.upper() not in CURRENCY_CODES:
             raise ValueError(f"Invalid end currency: {end_currency}")
 
         url = "https://api.freecurrencyapi.com/v1/latest?apikey={apikey}&base_currency={start_currency}&currencies={end_currency}"
         response = requests.get(
-            url.format(apikey="fca_live_Rmp5gWHFF5juckEH9pHQrokJv83Cm2YYBhXLyUyv", start_currency=start_currency,
-                       end_currency=end_currency))
+            url.format(apikey="fca_live_Rmp5gWHFF5juckEH9pHQrokJv83Cm2YYBhXLyUyv", start_currency=start_currency.upper(),
+                       end_currency=end_currency.upper()))
         data = response.json()
 
         if response.status_code != 200:
