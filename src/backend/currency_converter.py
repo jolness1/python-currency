@@ -38,6 +38,42 @@ CURRENCY_CODES = {
     "ZAR": "South African Rand",
 }
 
+CURRENCY_SYMBOLS = {
+    "EUR": "€",
+    "USD": "$",
+    "JPY": "¥",
+    "BGN": "лв",
+    "CZK": "Kč",
+    "DKK": "kr",
+    "GBP": "£",
+    "HUF": "Ft",
+    "PLN": "zł",
+    "RON": "lei",
+    "SEK": "kr",
+    "CHF": "Fr",
+    "ISK": "kr",
+    "NOK": "kr",
+    "HRK": "kn",
+    "RUB": "₽",
+    "TRY": "₺",
+    "AUD": "$",
+    "BRL": "R$",
+    "CAD": "$",
+    "CNY": "¥",
+    "HKD": "HK$",
+    "IDR": "Rp",
+    "ILS": "₪",
+    "INR": "₹",
+    "KRW": "₩",
+    "MXN": "$",
+    "MYR": "RM",
+    "NZD": "NZ$",
+    "PHP": "₱",
+    "SGD": "S$",
+    "THB": "฿",
+    "ZAR": "R",
+}
+
 COUNTRY_TO_CURRENCY = {
     "austria": "EUR",
     "belgium": "EUR",
@@ -91,6 +127,8 @@ COUNTRY_TO_CURRENCY = {
     "thailand": "THB",
     "south africa": "ZAR",
 }
+
+
 
 
 def convert_currency(amount, start_currency, end_currency, country_to_currency):
@@ -161,7 +199,7 @@ def main():
     converted_amount = convert_currency(args.amount, args.start_country, args.end_country, COUNTRY_TO_CURRENCY)
 
     if converted_amount is not None:
-        print(f"{args.amount} {start_currency} is equal to {converted_amount} {end_currency}")
+        print(f"{CURRENCY_SYMBOLS.get(start_currency)}{args.amount} {start_currency} is equal to {CURRENCY_SYMBOLS.get(end_currency)}{converted_amount} {end_currency}")
     else:
         print("Conversion failed.")
 
